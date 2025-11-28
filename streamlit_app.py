@@ -21,45 +21,35 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
     <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        text-align: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 2rem;
-    }
     .mcq-card {
-        background-color: #f8f9fa;
+        background-color: #1e1e1e !important;
+        color: white !important;
         padding: 1.5rem;
         border-radius: 10px;
         border-left: 4px solid #667eea;
         margin-bottom: 1.5rem;
     }
+    .mcq-card * {
+        color: white !important;
+    }
     .correct-option {
-        background-color: #d4edda;
-        padding: 0.5rem;
-        border-radius: 5px;
-        border-left: 3px solid #28a745;
-        margin: 0.5rem 0;
+        background-color: #314e31 !important;
+        color: white !important;
     }
     .wrong-option {
-        background-color: #ffffff;
-        padding: 0.5rem;
-        border-radius: 5px;
-        margin: 0.5rem 0;
+        background-color: #2a2a2a !important;
+        color: white !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # Header
-st.markdown('<h1 class="main-header">🧠 AI MCQ Generator</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">AI MCQ Generator</h1>', unsafe_allow_html=True)
 st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #666;">Generate multiple-choice questions from your documents using Google Gemini AI</p>', unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
-    st.header("⚙️ Settings")
+    st.header("Settings")
     num_questions = st.slider("Number of Questions", min_value=1, max_value=20, value=5, step=1)
     difficulty = st.selectbox("Difficulty Level", ["easy", "medium", "hard"], index=1)
     
@@ -75,7 +65,7 @@ with st.sidebar:
 
 # Main content
 uploaded_file = st.file_uploader(
-    "📄 Upload Document",
+    " Upload Document",
     type=['pdf', 'docx', 'txt'],
     help="Upload a PDF, DOCX, or TXT file to generate MCQs"
 )
@@ -92,9 +82,9 @@ if uploaded_file is not None:
         st.metric("Questions", num_questions)
     
     # Generate button
-    if st.button("🚀 Generate MCQs", type="primary", use_container_width=True):
+    if st.button(" Generate MCQs", type="primary", use_container_width=True):
         try:
-            with st.spinner("🔄 Processing document and generating MCQs... This may take a moment."):
+            with st.spinner(" Processing document and generating MCQs... This may take a moment."):
                 # Save uploaded file temporarily
                 with tempfile.NamedTemporaryFile(delete=False, suffix=f".{uploaded_file.name.split('.')[-1]}") as tmp_file:
                     tmp_file.write(uploaded_file.getvalue())
@@ -115,7 +105,7 @@ if uploaded_file is not None:
                         # Store in session state
                         st.session_state['mcqs'] = mcqs
                         st.session_state['file_name'] = uploaded_file.name
-                        st.success(f"✅ Successfully generated {len(mcqs)} questions!")
+                        st.success(f"Successfully generated {len(mcqs)} questions!")
                         
                 finally:
                     # Clean up temp file
@@ -129,12 +119,12 @@ if uploaded_file is not None:
 # Display generated MCQs
 if 'mcqs' in st.session_state and st.session_state['mcqs']:
     st.markdown("---")
-    st.header("📝 Generated Questions")
+    st.header(" Generated Questions")
     
     # Export button
     col1, col2 = st.columns([1, 4])
     with col1:
-        if st.button("📥 Export PDF", use_container_width=True):
+        if st.button(" Export PDF", use_container_width=True):
             try:
                 exporter = PDFExporter()
                 pdf_path = exporter.export_to_pdf(st.session_state['mcqs'], "Generated MCQs")
@@ -142,7 +132,7 @@ if 'mcqs' in st.session_state and st.session_state['mcqs']:
                 with open(pdf_path, 'rb') as pdf_file:
                     pdf_bytes = pdf_file.read()
                     st.download_button(
-                        label="⬇️ Download PDF",
+                        label=" Download PDF",
                         data=pdf_bytes,
                         file_name=f"MCQs_{st.session_state['file_name'].split('.')[0]}.pdf",
                         mime="application/pdf",
@@ -156,7 +146,7 @@ if 'mcqs' in st.session_state and st.session_state['mcqs']:
                 st.error(f"Export failed: {str(e)}")
     
     with col2:
-        if st.button("🔄 Generate New", use_container_width=True):
+        if st.button(" Generate New", use_container_width=True):
             if 'mcqs' in st.session_state:
                 del st.session_state['mcqs']
             st.rerun()
@@ -186,7 +176,7 @@ if 'mcqs' in st.session_state and st.session_state['mcqs']:
             
             if mcq.get('explanation'):
                 st.markdown("<br>", unsafe_allow_html=True)
-                st.info(f"💡 **Explanation:** {mcq['explanation']}")
+                st.info(f" **Explanation:** {mcq['explanation']}")
             
             st.markdown('</div>', unsafe_allow_html=True)
             st.markdown("<br>", unsafe_allow_html=True)
@@ -199,4 +189,5 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
