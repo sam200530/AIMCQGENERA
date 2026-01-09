@@ -1,7 +1,7 @@
 # AI MCQ Generator Live App
 
 A Flask-based Generative AI web application that automatically generates high-quality multiple-choice questions (MCQs) from academic documents. Built with LangChain and Google Gemini, featuring modular document parsing and real-time question generation.
-
+## Live link : https://appapppy-u9vcpzbokfc36jki8bks8c.streamlit.app/
 ## Features
 
 - **Multi-Format Support**: Process PDF, DOCX, and TXT files
@@ -163,4 +163,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 For issues and questions, please open an issue on the GitHub repository.
+
 
